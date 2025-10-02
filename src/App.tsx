@@ -1,64 +1,67 @@
-import { useState, Activity, Suspense } from "react";
-import { PokemonCard } from "./components/PokemonCard";
-
-const POKEMON_TABS = [
-  { id: "bulbasaur", label: "Bulbasaur" },
-  { id: "charmander", label: "Charmander" },
-  { id: "squirtle", label: "Squirtle" },
-] as const;
+import { Route, Link } from "wouter";
+import { PokemonTabs } from "./components/PokemonTabs";
 
 function App() {
-  const [activePokemon, setActivePokemon] = useState<string>("bulbasaur");
-
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-background text-foreground p-4">
-      <h1 className="text-3xl font-bold mb-6">Pokémon Explorer</h1>
-
-      <div className="w-full max-w-md">
-        {/* Custom Tab List */}
-        <div className="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground w-full mb-4">
-          {POKEMON_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActivePokemon(tab.id)}
-              className={`
-                inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium
-                transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-                flex-1
-                ${
-                  activePokemon === tab.id
-                    ? "bg-background text-foreground shadow"
-                    : "hover:bg-background/50"
+    <div className="flex min-h-screen w-full flex-col bg-background text-foreground">
+      {/* Header Navigation */}
+      <header className="border-b border-border bg-card shadow-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <h1 className="text-2xl font-bold">Pokémon Explorer</h1>
+            <nav className="flex gap-1">
+              <Link
+                href="/"
+                className={(active: boolean) =>
+                  `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  }`
                 }
-              `}
-            >
-              {tab.label}
-            </button>
-          ))}
+              >
+                Suspending
+              </Link>
+              <Link
+                href="/non-suspending"
+                className={(active: boolean) =>
+                  `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  }`
+                }
+              >
+                Non-Suspending
+              </Link>
+            </nav>
+          </div>
         </div>
+      </header>
 
-        {/* Custom Tab Content */}
-        <div className="mt-4">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Activity
-              mode={activePokemon === "bulbasaur" ? "visible" : "hidden"}
-            >
-              <PokemonCard pokemonName={"bulbasaur"} />
-            </Activity>
-            <Activity
-              mode={activePokemon === "charmander" ? "visible" : "hidden"}
-            >
-              <PokemonCard pokemonName={"charmander"} />
-            </Activity>
-            <Activity
-              mode={activePokemon === "squirtle" ? "visible" : "hidden"}
-            >
-              <PokemonCard pokemonName={"squirtle"} />
-            </Activity>
-          </Suspense>
-        </div>
-      </div>
-    </main>
+      {/* Main Content */}
+      <main className="flex flex-1 w-full flex-col items-center justify-center p-4">
+        <Route path="/">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold mb-2">Suspending Mode</h2>
+            <p className="text-sm text-muted-foreground">
+              Uses React Suspense for loading states
+            </p>
+          </div>
+          <PokemonTabs mode="suspending" />
+        </Route>
+
+        <Route path="/non-suspending">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold mb-2">Non-Suspending Mode</h2>
+            <p className="text-sm text-muted-foreground">
+              Handles loading states internally
+            </p>
+          </div>
+          <PokemonTabs mode="non-suspending" />
+        </Route>
+      </main>
+    </div>
   );
 }
 

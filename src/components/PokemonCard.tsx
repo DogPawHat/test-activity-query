@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -52,8 +52,9 @@ async function fetchPokemon(name: string): Promise<PokemonData> {
   return response.json();
 }
 
-export function PokemonCard({ pokemonName }: PokemonCardProps) {
-  const { data, isLoading, isError, error } = useSuspenseQuery({
+// Non-Suspending version - handles loading/error states internally
+export function NonSuspendingPokemonCard({ pokemonName }: PokemonCardProps) {
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["pokemon", pokemonName],
     queryFn: () => fetchPokemon(pokemonName),
   });
@@ -82,6 +83,21 @@ export function PokemonCard({ pokemonName }: PokemonCardProps) {
 
   if (!data) return null;
 
+  return <PokemonCardContent data={data} />;
+}
+
+// Suspending version - throws promise to nearest Suspense boundary
+export function SuspendingPokemonCard({ pokemonName }: PokemonCardProps) {
+  const { data } = useSuspenseQuery({
+    queryKey: ["pokemon", pokemonName],
+    queryFn: () => fetchPokemon(pokemonName),
+  });
+
+  return <PokemonCardContent data={data} />;
+}
+
+// Shared component for rendering Pokemon data
+function PokemonCardContent({ data }: { data: PokemonData }) {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
@@ -170,3 +186,6 @@ export function PokemonCard({ pokemonName }: PokemonCardProps) {
     </Card>
   );
 }
+
+// Backward compatibility: export SuspendingPokemonCard as PokemonCard for existing code
+export const PokemonCard = SuspendingPokemonCard;
