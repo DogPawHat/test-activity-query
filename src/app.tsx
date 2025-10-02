@@ -28,7 +28,7 @@ function App() {
                 Non-Suspending
               </Link>
               <Link
-                href="/non-suspending"
+                href="/suspending"
                 className={(active: boolean) =>
                   `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     active
@@ -56,7 +56,7 @@ function App() {
           <PokemonTabs mode="non-suspending" />
         </Route>
 
-        <Route path="/non-suspending">
+        <Route path="/suspending">
           <div className="text-center mb-6">
             <h2 className="text-xl font-semibold mb-2">Suspending Mode</h2>
             <p className="text-sm text-muted-foreground">
