@@ -5,7 +5,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
+    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-background text-foreground">
       <h1 className="text-2xl font-bold">Vite + React</h1>
       <Card>
         <CardContent>
