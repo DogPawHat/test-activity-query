@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -53,7 +53,7 @@ async function fetchPokemon(name: string): Promise<PokemonData> {
 }
 
 export function PokemonCard({ pokemonName }: PokemonCardProps) {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useSuspenseQuery({
     queryKey: ["pokemon", pokemonName],
     queryFn: () => fetchPokemon(pokemonName),
   });
@@ -170,4 +170,3 @@ export function PokemonCard({ pokemonName }: PokemonCardProps) {
     </Card>
   );
 }
-

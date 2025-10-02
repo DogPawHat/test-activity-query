@@ -1,4 +1,4 @@
-import { useState, Activity } from "react";
+import { useState, Activity, Suspense } from "react";
 import { PokemonCard } from "./components/PokemonCard";
 
 const POKEMON_TABS = [
@@ -39,17 +39,23 @@ function App() {
 
         {/* Custom Tab Content */}
         <div className="mt-4">
-          <Activity mode={activePokemon === "bulbasaur" ? "visible" : "hidden"}>
-            <PokemonCard pokemonName="bulbasaur" />
-          </Activity>
-          <Activity
-            mode={activePokemon === "charmander" ? "visible" : "hidden"}
-          >
-            <PokemonCard pokemonName="charmander" />
-          </Activity>
-          <Activity mode={activePokemon === "squirtle" ? "visible" : "hidden"}>
-            <PokemonCard pokemonName="squirtle" />
-          </Activity>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Activity
+              mode={activePokemon === "bulbasaur" ? "visible" : "hidden"}
+            >
+              <PokemonCard pokemonName={"bulbasaur"} />
+            </Activity>
+            <Activity
+              mode={activePokemon === "charmander" ? "visible" : "hidden"}
+            >
+              <PokemonCard pokemonName={"charmander"} />
+            </Activity>
+            <Activity
+              mode={activePokemon === "squirtle" ? "visible" : "hidden"}
+            >
+              <PokemonCard pokemonName={"squirtle"} />
+            </Activity>
+          </Suspense>
         </div>
       </div>
     </main>
