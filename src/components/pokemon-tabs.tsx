@@ -1,5 +1,5 @@
 import { useState, Activity, Suspense } from "react";
-import { NonSuspendingPokemonCard, SuspendingPokemonCard } from "./PokemonCard";
+import { NonSuspendingPokemonCard, SuspendingPokemonCard } from "./pokemon-card";
 
 const POKEMON_TABS = [
   { id: "bulbasaur", label: "Bulbasaur" },

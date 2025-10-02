@@ -55,7 +55,7 @@ async function fetchPokemon(name: string): Promise<PokemonData> {
 // Non-Suspending version - handles loading/error states internally
 export function NonSuspendingPokemonCard({ pokemonName }: PokemonCardProps) {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["pokemon", pokemonName],
+    queryKey: ["pokemon-non-suspending", pokemonName],
     queryFn: () => fetchPokemon(pokemonName),
   });
 
@@ -89,7 +89,7 @@ export function NonSuspendingPokemonCard({ pokemonName }: PokemonCardProps) {
 // Suspending version - throws promise to nearest Suspense boundary
 export function SuspendingPokemonCard({ pokemonName }: PokemonCardProps) {
   const { data } = useSuspenseQuery({
-    queryKey: ["pokemon", pokemonName],
+    queryKey: ["pokemon-suspending", pokemonName],
     queryFn: () => fetchPokemon(pokemonName),
   });
 

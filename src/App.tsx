@@ -1,5 +1,5 @@
 import { Route, Link } from "wouter";
-import { PokemonTabs } from "./components/PokemonTabs";
+import { PokemonTabs } from "./components/pokemon-tabs";
 
 function App() {
   return (
@@ -8,7 +8,12 @@ function App() {
       <header className="border-b border-border bg-card shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <h1 className="text-2xl font-bold">Pokémon Explorer</h1>
+            <div className="flex flex-col">
+              <h1 className="text-xl font-bold">{`<Activity /> Component and Query Explorer - with Pokemon!`}</h1>
+              <p className="text-sm text-muted-foreground">
+                Query components wrapped in React Activity Component
+              </p>
+            </div>
             <nav className="flex gap-1">
               <Link
                 href="/"
