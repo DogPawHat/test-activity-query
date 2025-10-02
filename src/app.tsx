@@ -25,7 +25,7 @@ function App() {
                   }`
                 }
               >
-                Suspending
+                Non-Suspending
               </Link>
               <Link
                 href="/non-suspending"
@@ -37,7 +37,7 @@ function App() {
                   }`
                 }
               >
-                Non-Suspending
+                Suspending
               </Link>
             </nav>
           </div>
@@ -48,22 +48,22 @@ function App() {
       <main className="flex flex-1 w-full flex-col items-center justify-center p-4">
         <Route path="/">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-semibold mb-2">Suspending Mode</h2>
-            <p className="text-sm text-muted-foreground">
-              Uses React Suspense for loading states
-            </p>
-          </div>
-          <PokemonTabs mode="suspending" />
-        </Route>
-
-        <Route path="/non-suspending">
-          <div className="text-center mb-6">
             <h2 className="text-xl font-semibold mb-2">Non-Suspending Mode</h2>
             <p className="text-sm text-muted-foreground">
               Handles loading states internally
             </p>
           </div>
           <PokemonTabs mode="non-suspending" />
+        </Route>
+
+        <Route path="/non-suspending">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold mb-2">Suspending Mode</h2>
+            <p className="text-sm text-muted-foreground">
+              Uses React Suspense for loading states
+            </p>
+          </div>
+          <PokemonTabs mode="suspending" />
         </Route>
       </main>
     </div>
