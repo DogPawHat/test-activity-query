@@ -2,6 +2,7 @@ import { Activity, Suspense, useState } from "react";
 import { useActivityEnabled, useSuspenseEnabled } from "../lib/utils";
 import {
   NonSuspendingPokemonCard,
+  SkeletonPokemonCard,
   SuspendingPokemonCard,
 } from "./pokemon-card";
 
@@ -12,7 +13,7 @@ const POKEMON_TABS = [
 ] as const;
 
 export function PokemonTabs() {
-  const [activePokemon, setActivePokemon] = useState<string>("bulbasaur");
+  const [activePokemon, setActivePokemon] = useState("bulbasaur");
   const [activityEnabled] = useActivityEnabled();
   const [suspenseEnabled] = useSuspenseEnabled();
 
@@ -73,11 +74,7 @@ export function PokemonTabs() {
       {/* Custom Tab Content */}
       <div className="mt-4">
         {suspenseEnabled ? (
-          <Suspense
-            fallback={<div className="text-center p-8">Loading...</div>}
-          >
-            {content}
-          </Suspense>
+          <Suspense fallback={<SkeletonPokemonCard />}>{content}</Suspense>
         ) : (
           content
         )}

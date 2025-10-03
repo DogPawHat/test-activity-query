@@ -96,6 +96,70 @@ export function SuspendingPokemonCard({ pokemonName }: PokemonCardProps) {
   return <PokemonCardContent data={data} />;
 }
 
+export function SkeletonPokemonCard() {
+  return (
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <div className="space-y-2">
+          {/* Pokemon name skeleton */}
+          <div className="h-8 w-32 bg-muted rounded animate-pulse" />
+          {/* Pokemon ID skeleton */}
+          <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Image skeleton */}
+        <div className="flex justify-center">
+          <div className="w-48 h-48 bg-muted rounded-lg animate-pulse" />
+        </div>
+
+        <div className="space-y-2">
+          {/* Types skeleton */}
+          <div className="flex gap-2">
+            <div className="h-7 w-20 bg-muted rounded-full animate-pulse" />
+            <div className="h-7 w-20 bg-muted rounded-full animate-pulse" />
+          </div>
+
+          {/* Height and weight skeleton */}
+          <div className="grid grid-cols-2 gap-4 pt-2">
+            <div>
+              <div className="h-4 w-12 bg-muted rounded animate-pulse mb-1" />
+              <div className="h-6 w-16 bg-muted rounded animate-pulse" />
+            </div>
+            <div>
+              <div className="h-4 w-12 bg-muted rounded animate-pulse mb-1" />
+              <div className="h-6 w-16 bg-muted rounded animate-pulse" />
+            </div>
+          </div>
+
+          {/* Abilities skeleton */}
+          <div className="pt-2">
+            <div className="h-4 w-16 bg-muted rounded animate-pulse mb-2" />
+            <div className="flex flex-wrap gap-2">
+              <div className="h-6 w-24 bg-muted rounded animate-pulse" />
+              <div className="h-6 w-20 bg-muted rounded animate-pulse" />
+            </div>
+          </div>
+
+          {/* Base stats skeleton */}
+          <div className="pt-2">
+            <div className="h-4 w-20 bg-muted rounded animate-pulse mb-2" />
+            <div className="space-y-1">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <div className="h-3 w-32 bg-muted rounded animate-pulse" />
+                  <div className="flex-1 bg-muted rounded-full h-2 animate-pulse" />
+                  <div className="h-3 w-8 bg-muted rounded animate-pulse" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Shared component for rendering Pokemon data
 function PokemonCardContent({ data }: { data: PokemonData }) {
   return (
