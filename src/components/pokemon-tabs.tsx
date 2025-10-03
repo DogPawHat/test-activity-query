@@ -1,5 +1,9 @@
-import { useState, Activity, Suspense } from "react";
-import { NonSuspendingPokemonCard, SuspendingPokemonCard } from "./pokemon-card";
+import { Activity, Suspense, useState } from "react";
+import { useActivityEnabled, useSuspenseEnabled } from "../lib/utils";
+import {
+  NonSuspendingPokemonCard,
+  SuspendingPokemonCard,
+} from "./pokemon-card";
 
 const POKEMON_TABS = [
   { id: "bulbasaur", label: "Bulbasaur" },
@@ -7,17 +11,16 @@ const POKEMON_TABS = [
   { id: "squirtle", label: "Squirtle" },
 ] as const;
 
-interface PokemonTabsProps {
-  mode: "suspending" | "non-suspending";
-}
-
-export function PokemonTabs({ mode }: PokemonTabsProps) {
+export function PokemonTabs() {
   const [activePokemon, setActivePokemon] = useState<string>("bulbasaur");
+  const [activityEnabled] = useActivityEnabled();
+  const [suspenseEnabled] = useSuspenseEnabled();
 
-  const PokemonComponent = mode === "suspending" ? SuspendingPokemonCard : NonSuspendingPokemonCard;
-  const useSuspense = mode === "suspending";
+  const PokemonComponent = suspenseEnabled
+    ? SuspendingPokemonCard
+    : NonSuspendingPokemonCard;
 
-  const content = (
+  const content = activityEnabled ? (
     <>
       <Activity mode={activePokemon === "bulbasaur" ? "visible" : "hidden"}>
         <PokemonComponent pokemonName="bulbasaur" />
@@ -28,6 +31,18 @@ export function PokemonTabs({ mode }: PokemonTabsProps) {
       <Activity mode={activePokemon === "squirtle" ? "visible" : "hidden"}>
         <PokemonComponent pokemonName="squirtle" />
       </Activity>
+    </>
+  ) : (
+    <>
+      {activePokemon === "bulbasaur" && (
+        <PokemonComponent pokemonName="bulbasaur" />
+      )}
+      {activePokemon === "charmander" && (
+        <PokemonComponent pokemonName="charmander" />
+      )}
+      {activePokemon === "squirtle" && (
+        <PokemonComponent pokemonName="squirtle" />
+      )}
     </>
   );
 
@@ -57,8 +72,10 @@ export function PokemonTabs({ mode }: PokemonTabsProps) {
 
       {/* Custom Tab Content */}
       <div className="mt-4">
-        {useSuspense ? (
-          <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
+        {suspenseEnabled ? (
+          <Suspense
+            fallback={<div className="text-center p-8">Loading...</div>}
+          >
             {content}
           </Suspense>
         ) : (
@@ -68,4 +85,3 @@ export function PokemonTabs({ mode }: PokemonTabsProps) {
     </div>
   );
 }
-

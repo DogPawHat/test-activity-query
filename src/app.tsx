@@ -1,70 +1,76 @@
-import { Route, Link } from "wouter";
 import { PokemonTabs } from "./components/pokemon-tabs";
+import { Button } from "./components/ui/button";
+import { useActivityEnabled, useSuspenseEnabled } from "./lib/utils";
 
 function App() {
+  const [activityEnabled, setActivityEnabled] = useActivityEnabled();
+  const [suspenseEnabled, setSuspenseEnabled] = useSuspenseEnabled();
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-background text-foreground">
       {/* Header Navigation */}
-      <header className="border-b border-border bg-card shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex flex-col">
-              <h1 className="text-xl font-bold">{`<Activity /> Component and Query Explorer - with Pokemon!`}</h1>
-              <p className="text-sm text-muted-foreground">
-                Query components wrapped in React Activity Component
-              </p>
+      <header className="border-b border-border bg-card shadow-sm p-4">
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="flex flex-col">
+            <h1 className="text-xl font-bold">{`<Activity /> Component and Query Explorer - with Pokemon!`}</h1>
+            <p className="text-sm text-muted-foreground">
+              Query components wrapped in React Activity Component
+            </p>
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-1">
+              <Button
+                onClick={() => setActivityEnabled(false)}
+                variant={activityEnabled ? "outline" : "default"}
+                size="sm"
+              >
+                No Activity
+              </Button>
+              <Button
+                onClick={() => setActivityEnabled(true)}
+                variant={activityEnabled ? "default" : "outline"}
+                size="sm"
+              >
+                Activity
+              </Button>
             </div>
-            <nav className="flex gap-1">
-              <Link
-                href="/"
-                className={(active: boolean) =>
-                  `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    active
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-accent hover:text-accent-foreground"
-                  }`
-                }
+            <div className="flex gap-1">
+              <Button
+                onClick={() => setSuspenseEnabled(false)}
+                variant={suspenseEnabled ? "outline" : "default"}
+                size="sm"
               >
                 Non-Suspending
-              </Link>
-              <Link
-                href="/suspending"
-                className={(active: boolean) =>
-                  `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    active
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-accent hover:text-accent-foreground"
-                  }`
-                }
+              </Button>
+              <Button
+                onClick={() => setSuspenseEnabled(true)}
+                variant={suspenseEnabled ? "default" : "outline"}
+                size="sm"
               >
                 Suspending
-              </Link>
-            </nav>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex flex-1 w-full flex-col items-center justify-center p-4">
-        <Route path="/">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-semibold mb-2">Non-Suspending Mode</h2>
-            <p className="text-sm text-muted-foreground">
-              Handles loading states internally
-            </p>
-          </div>
-          <PokemonTabs mode="non-suspending" />
-        </Route>
-
-        <Route path="/suspending">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-semibold mb-2">Suspending Mode</h2>
-            <p className="text-sm text-muted-foreground">
-              Uses React Suspense for loading states
-            </p>
-          </div>
-          <PokemonTabs mode="suspending" />
-        </Route>
+        <h2 className="text-xl font-semibold mb-2">
+          {!activityEnabled &&
+            !suspenseEnabled &&
+            "Suspense and Activity disabled"}
+          {activityEnabled &&
+            !suspenseEnabled &&
+            "Activity enabled, Suspense disabled"}
+          {!activityEnabled &&
+            suspenseEnabled &&
+            "Activity disabled, Suspense enabled"}
+          {activityEnabled &&
+            suspenseEnabled &&
+            "Activity and Suspense enabled"}
+        </h2>
+        <PokemonTabs />
       </main>
     </div>
   );
