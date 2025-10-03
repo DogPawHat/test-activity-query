@@ -1,4 +1,6 @@
-import { Activity, Suspense, useState } from "react";
+import { Activity, Suspense } from "react";
+import { useQueryState, parseAsStringLiteral } from "nuqs";
+
 import { useActivityEnabled, useSuspenseEnabled } from "../lib/utils";
 import {
   NonSuspendingPokemonCard,
@@ -13,7 +15,14 @@ const POKEMON_TABS = [
 ] as const;
 
 export function PokemonTabs() {
-  const [activePokemon, setActivePokemon] = useState("bulbasaur");
+  const [activePokemon, setActivePokemon] = useQueryState(
+    "activePokemon",
+    parseAsStringLiteral(["bulbasaur", "charmander", "squirtle"])
+      .withDefault("bulbasaur")
+      .withOptions({
+        clearOnDefault: false,
+      })
+  );
   const [activityEnabled] = useActivityEnabled();
   const [suspenseEnabled] = useSuspenseEnabled();
 
