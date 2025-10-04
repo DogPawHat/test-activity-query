@@ -25,7 +25,7 @@ export function useActivityEnabled() {
 export function useSuspenseEnabled() {
   const queryClient = useQueryClient();
   const [suspenseEnabled, _setSuspenseEnabled] = useQueryState(
-    "activitySuspending",
+    "suspenseEnabled",
     parseAsBoolean.withDefault(false)
   );
 
