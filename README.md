@@ -2,6 +2,8 @@
 
 A demo project showcasing TanStack Query (React Query) with React 19.2, built with Vite and TypeScript.
 
+Notes on my blog: https://dogpawhat.tech/blog/notes-on-activity-component/
+
 ## Getting Started
 
 ### Prerequisites
